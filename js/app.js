@@ -53,7 +53,7 @@ header.addEventListener("click", (event) => {
          fetchData("products?limit=9", renderProducts);
       } else {
          wrapper.innerHTML = null;
-         fetchData(`products/category/${tag}`, renderProducts);
+         fetchData(`products/category/${tag}?limit=9`, renderProducts);
       }
    }
 });
