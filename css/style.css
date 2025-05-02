@@ -87,3 +87,34 @@ li {
    white-space: nowrap;
    cursor: pointer;
 }
+
+.see-more {
+   width: 100%;
+   display: flex;
+   justify-content: center;
+   padding: 50px 0;
+}
+
+.btn {
+   margin: 30px auto;
+   display: inline-block;
+   width: 300px;
+   padding: 20px 10px;
+   background-color: green;
+   color: #fff;
+   border-radius: 8px;
+   outline: none;
+   border: none;
+   font-size: 20px;
+   cursor: pointer;
+   transition: 0.2s;
+}
+
+.btn:active {
+   transform: scale(0.9);
+}
+
+.disabled {
+   opacity: 0.6;
+   cursor: not-allowed;
+}

@@ -1,8 +1,17 @@
 import { fetchData } from "./main.js";
+const wrapper = document.querySelector(".wrapper");
+const header = document.querySelector(".header");
+const ulEl = document.querySelector(".tags");
+const btnEl = document.querySelector(".btn");
+let offset = 0;
+let perPageCount = 9;
 
 function renderProducts(data) {
-   console.log(data);
-   const wrapper = document.querySelector(".wrapper");
+   if (data.limit < perPageCount) {
+      btnEl.classList.add("disabled");
+   } else {
+      btnEl.classList.remove("disabled");
+   }
    const fragment = document.createDocumentFragment();
 
    data?.products.forEach((prd) => {
@@ -20,15 +29,39 @@ function renderProducts(data) {
    wrapper.appendChild(fragment);
 }
 
-const ulEl = document.querySelector(".tags");
 function renderTags(data) {
+   const fragment = document.createDocumentFragment();
+
    data?.forEach((tag) => {
       const li = document.createElement("li");
       li.innerHTML = tag;
 
-      ulEl.appendChild(li);
+      fragment.appendChild(li);
    });
+
+   ulEl.appendChild(fragment);
 }
+
+header.addEventListener("click", (event) => {
+   const targetName = event.target.nodeName;
+
+   if (targetName === "LI") {
+      const tag = event.target.innerHTML;
+
+      if (tag === "All") {
+         wrapper.innerHTML = null;
+         fetchData("products?limit=9", renderProducts);
+      } else {
+         wrapper.innerHTML = null;
+         fetchData(`products/category/${tag}`, renderProducts);
+      }
+   }
+});
+
+btnEl.onclick = (event) => {
+   offset++;
+   fetchData(`products?limit=${perPageCount}&skip=${perPageCount * offset}`, renderProducts);
+};
 
 window.onload = () => {
    fetchData("products/category-list", renderTags);
